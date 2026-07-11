@@ -1,8 +1,16 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { Suspense, lazy } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Suspense, lazy, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { useAuth } from './context/AuthContext';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home'));
@@ -36,6 +44,7 @@ function GuestRoute({ children }) {
 export default function App() {
   return (
     <>
+      <ScrollToTop />
       <Toaster position="top-right" toastOptions={{ duration: 3000, style: { fontFamily: 'var(--font-ui)', fontSize: '0.88rem', borderRadius: '10px', boxShadow: 'var(--shadow-lg)' } }} />
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
