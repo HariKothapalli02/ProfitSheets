@@ -11,6 +11,62 @@ import NewsCard from '../components/NewsCard/NewsCard';
 import UserLayout from '../layouts/UserLayout';
 import './NewsDetail.css';
 
+function formatArticleContent(content, title, author, description) {
+  if (!content) return '';
+  
+  let cleanContent = content.trim();
+  
+  // Remove title repetitions at the start
+  if (title) {
+    const escapedTitle = title.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    const escapedAuthor = author ? author.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') : '';
+    
+    const titleRegex = new RegExp(
+      `^\\s*(${escapedTitle})\\s*(?:\\|\\s*)?(?:Image Credits:[^\\.]+\\.)?(?:\\s*AI\\s*)?(?:${escapedTitle}\\s*)?(?:${escapedAuthor})?\\s*(?:\\d+:\\d+\\s*(?:AM|PM)\\s*(?:PDT|EST|EDT|PST|IST|GMT)?)?\\s*(?:·\\s*)?(?:[A-Za-z]+ \\d+, \\d{4})?\\s*`,
+      'i'
+    );
+    cleanContent = cleanContent.replace(titleRegex, '');
+  }
+  
+  // Fallback: If it still contains a prefix of the title, let's remove it
+  if (title && cleanContent.startsWith(title)) {
+    cleanContent = cleanContent.substring(title.length).trim();
+  }
+
+  // Remove description repetitions at the start
+  if (description) {
+    const trimmedDesc = description.trim();
+    if (cleanContent.startsWith(trimmedDesc)) {
+      cleanContent = cleanContent.substring(trimmedDesc.length).trim();
+    }
+  }
+  
+  // Split into paragraphs if there are no newlines
+  if (!cleanContent.includes('\n') && !cleanContent.includes('<p>')) {
+    const sentences = cleanContent.match(/[^.!?]+[.!?]+(?:\s+|$)/g) || [cleanContent];
+    let paragraphs = [];
+    let currentParagraph = [];
+    
+    sentences.forEach((sentence, index) => {
+      currentParagraph.push(sentence.trim());
+      if (currentParagraph.length >= 3 || index === sentences.length - 1) {
+        paragraphs.push(`<p>${currentParagraph.join(' ')}</p>`);
+        currentParagraph = [];
+      }
+    });
+    
+    return paragraphs.join('');
+  }
+  
+  // If it has newlines, format them into proper paragraph tags
+  return cleanContent
+    .split(/\n+/)
+    .map(para => para.trim())
+    .filter(para => para.length > 0)
+    .map(para => `<p>${para}</p>`)
+    .join('');
+}
+
 function CommentForm({ newsId, onSuccess }) {
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
@@ -91,11 +147,6 @@ export default function NewsDetail() {
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
 
-  // Reset scroll to top when slug changes
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [slug]);
-
   const { data, isLoading, error } = useQuery({
     queryKey: ['news', slug],
     queryFn: () => api.get(`/news/${slug}`).then(r => r.data),
@@ -112,6 +163,15 @@ export default function NewsDetail() {
     queryFn: () => api.get(`/news?category=${data.news.category.slug}&limit=4`).then(r => r.data),
     enabled: !!data?.news?.category?.slug,
   });
+
+  // Reset scroll to top when slug changes or loading state finishes (handles lazy paint/reflows)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 50);
+    return () => clearTimeout(timer);
+  }, [slug, isLoading]);
 
   if (isLoading) return (
     <UserLayout>
@@ -228,7 +288,7 @@ export default function NewsDetail() {
             )}
 
             {/* Content */}
-            <div className="newsDetail-content" dangerouslySetInnerHTML={{ __html: news.content.replace(/\n/g, '<br/>') }} />
+            <div className="newsDetail-content" dangerouslySetInnerHTML={{ __html: formatArticleContent(news.content, news.title, news.authorName, news.description) }} />
 
             {/* Tags */}
             {news.tags?.length > 0 && (
