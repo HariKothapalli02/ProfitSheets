@@ -9,6 +9,9 @@ const connectDB = require('./config/db');
 
 const app = express();
 
+// Trust proxy for express-rate-limit behind Vercel proxy
+app.set('trust proxy', 1);
+
 // Connect DB
 connectDB();
 
