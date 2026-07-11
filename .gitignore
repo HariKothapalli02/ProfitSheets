@@ -9,3 +9,7 @@ server/.env
 .vscode/
 .idea/
 .DS_Store
+
+# n8n workflow files
+main (1).json
+main*.json
