@@ -62,6 +62,8 @@ export default function Home() {
   const latest = latestData?.news || [];
   const trending = trendingData?.news || [];
 
+  const displayFeatured = featured.length > 0 ? featured : latest;
+
   return (
     <UserLayout>
       {/* Editorial Header Row */}
@@ -80,11 +82,11 @@ export default function Home() {
               <span>EDITOR'S PICK</span>
             </div>
             <div className="panel-body">
-              {featured.length === 0 ? (
+              {displayFeatured.length === 0 ? (
                 <p className="empty-message">More articles will appear here once posted.</p>
               ) : (
                 <div className="editors-pick-list">
-                  {featured.slice(0, 2).map(n => (
+                  {displayFeatured.slice(0, 2).map(n => (
                     <Link key={n._id} to={`/news/${n.slug}`} className="editors-pick-item">
                       <p className="pick-title">{n.title}</p>
                       <span className="pick-cat">{n.category?.name}</span>
@@ -104,8 +106,8 @@ export default function Home() {
           <div className="hero-main">
             {loadingFeatured ? (
               <div className="skeleton" style={{ height: '100%', minHeight: 420, borderRadius: 8 }} />
-            ) : featured[0] ? (
-              <NewsCard news={featured[0]} variant="featured" />
+            ) : displayFeatured[0] ? (
+              <NewsCard news={displayFeatured[0]} variant="featured" />
             ) : (
               <div className="hero-empty">
                 <Globe size={48} style={{ color: 'var(--gray-300)' }} />
@@ -151,14 +153,14 @@ export default function Home() {
         </section>
 
       {/* More featured */}
-      {featured.length > 1 && (
+      {displayFeatured.length > 1 && (
         <section className="home-section container">
           <div className="section-header">
             <h2 className="section-title">Editor's Picks</h2>
             <Link to="/news?featured=true" className="btn btn-ghost btn-sm">See all <ArrowRight size={14} /></Link>
           </div>
           <div className="news-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
-            {featured.slice(1, 4).map(n => <NewsCard key={n._id} news={n} />)}
+            {displayFeatured.slice(1, 4).map(n => <NewsCard key={n._id} news={n} />)}
           </div>
         </section>
       )}
