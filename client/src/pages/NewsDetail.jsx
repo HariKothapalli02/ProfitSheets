@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Clock, Eye, Heart, Share2, Bookmark, ArrowLeft, MessageCircle, Send, Trash2 } from 'lucide-react';
 import { formatDistanceToNow, format } from 'date-fns';
@@ -90,6 +90,11 @@ export default function NewsDetail() {
   const { user } = useAuth();
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
+
+  // Reset scroll to top when slug changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['news', slug],
