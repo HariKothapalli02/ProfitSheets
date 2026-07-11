@@ -1,0 +1,25 @@
+.news-form-wrap { }
+.news-form-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.news-form-header-actions { display: flex; gap: 8px; }
+.news-form-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+.news-form-main { display: flex; flex-direction: column; gap: 20px; }
+.news-form-sidebar { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 80px; }
+.form-panel { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow-sm); }
+.form-panel-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--navy); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.form-hint { font-size: 0.75rem; color: var(--gray-400); margin-top: 6px; }
+.form-section { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; }
+.form-section-title { font-size: 0.85rem; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+.form-actions { display: flex; gap: 8px; margin-top: 12px; }
+.toggle-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.toggle-label { display: flex; align-items: center; gap: 8px; font-size: 0.84rem; font-weight: 500; color: var(--text); cursor: pointer; }
+.toggle-label input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--navy); }
+.tags-input-wrap { display: flex; gap: 8px; }
+.tags-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.tag-chip { display: inline-flex; align-items: center; gap: 4px; background: var(--navy); color: #fff; padding: 4px 10px; border-radius: 99px; font-size: 0.78rem; font-weight: 600; }
+.tag-remove { background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.7); display: flex; align-items: center; padding: 0; }
+.tag-remove:hover { color: #fff; }
+.news-form-preview { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; max-width: 800px; margin: 0 auto; font-size: 1rem; line-height: 1.8; }
+
+.news-form-main .form-group, .news-form-main .form-section { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); }
+
+@media (max-width: 1024px) { .news-form-layout { grid-template-columns: 1fr; } .news-form-sidebar { position: static; } }

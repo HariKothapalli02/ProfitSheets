@@ -1,0 +1,73 @@
+.admin-sidebar {
+  width: 260px;
+  background: var(--dark-navy);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  text-decoration: none;
+}
+.sidebar-logo-icon svg { width: 38px; height: 38px; }
+.sidebar-logo-text { display: flex; flex-direction: column; gap: 1px; }
+.sidebar-logo-name { font-size: 1rem; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+.sidebar-logo-role { font-size: 0.7rem; color: var(--green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.sidebar-nav {
+  flex: 1;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.sidebar-nav-group { display: flex; flex-direction: column; gap: 2px; }
+.sidebar-nav-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.3); padding: 8px 12px 4px; }
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.6);
+  transition: var(--transition);
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 100%;
+  font-family: var(--font-ui);
+  position: relative;
+}
+.sidebar-nav-item:hover { background: rgba(255,255,255,0.07); color: #fff; }
+.sidebar-nav-item.active { background: rgba(0,166,81,0.15); color: var(--green); font-weight: 600; }
+.sidebar-nav-item.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 20px; background: var(--green); border-radius: 0 3px 3px 0; }
+.sidebar-external { margin-left: auto; opacity: 0.4; }
+.sidebar-logout { color: rgba(239,68,68,0.7) !important; }
+.sidebar-logout:hover { background: rgba(239,68,68,0.1) !important; color: var(--error) !important; }
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.1);
+}
+.sidebar-user-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--green); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+.sidebar-user-info { display: flex; flex-direction: column; gap: 1px; overflow: hidden; }
+.sidebar-user-name { font-size: 0.85rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sidebar-user-role { font-size: 0.7rem; color: var(--green); font-weight: 600; }
