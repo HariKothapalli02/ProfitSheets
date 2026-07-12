@@ -27,4 +27,7 @@
 .pagination-num:hover { border-color: var(--navy); color: var(--navy); }
 .pagination-num.active { background: var(--navy); color: #fff; border-color: var(--navy); }
 
-@media (max-width: 900px) { .newsList-body { grid-template-columns: 1fr; } .newsList-sidebar { position: static; flex-direction: row; overflow-x: auto; } .filter-group { flex-shrink: 0; min-width: 180px; } }
+@media (max-width: 900px) {
+  .newsList-body { grid-template-columns: 1fr; }
+  .newsList-sidebar { display: none; }
+}
