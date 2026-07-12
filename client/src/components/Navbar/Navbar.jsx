@@ -58,113 +58,118 @@ export default function Navbar({ collapsed, setCollapsed }) {
           </button>
         )}
 
-        {/* Brand logo */}
-        <div className="sidebar-brand-section">
-          <Link to="/" className="navbar-logo">
-            <div className="logo-icon">
-              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="40" height="40" rx="6" fill="#0B2D52"/>
-                <text x="20" y="29" fontSize="22" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">P</text>
-                <polygon points="6,8 12,8 8,14" fill="#00A651"/>
-              </svg>
+        {/* Fixed Header */}
+        <div className="sidebar-header-fixed">
+          {/* Brand logo */}
+          <div className="sidebar-brand-section">
+            <Link to="/" className="navbar-logo">
+              <div className="logo-icon">
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="40" height="40" rx="6" fill="#0B2D52"/>
+                  <text x="20" y="29" fontSize="22" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">P</text>
+                  <polygon points="6,8 12,8 8,14" fill="#00A651"/>
+                </svg>
+              </div>
+              {showText && (
+                <span className="logo-text">
+                  <span className="logo-profit">Profit</span><span className="logo-sheets">Sheets</span>
+                </span>
+              )}
+            </Link>
+          </div>
+
+          {/* Search Bar */}
+          {showText ? (
+            <div className="sidebar-search-section">
+              <form onSubmit={handleSearch} className="sidebar-search-form">
+                <Search size={16} className="search-icon" />
+                <input
+                  type="text"
+                  placeholder="Search market news..."
+                  value={searchQ}
+                  onChange={(e) => setSearchQ(e.target.value)}
+                  className="sidebar-search-input"
+                />
+              </form>
             </div>
-            {showText && (
-              <span className="logo-text">
-                <span className="logo-profit">Profit</span><span className="logo-sheets">Sheets</span>
-              </span>
-            )}
-          </Link>
+          ) : (
+            <button className="sidebar-link sidebar-search-collapsed-btn" onClick={() => setCollapsed(false)} title="Search">
+              <Search size={16} />
+            </button>
+          )}
         </div>
 
-        {/* Search Bar */}
-        {showText ? (
-          <div className="sidebar-search-section">
-            <form onSubmit={handleSearch} className="sidebar-search-form">
-              <Search size={16} className="search-icon" />
-              <input
-                type="text"
-                placeholder="Search market news..."
-                value={searchQ}
-                onChange={(e) => setSearchQ(e.target.value)}
-                className="sidebar-search-input"
-              />
-            </form>
-          </div>
-        ) : (
-          <button className="sidebar-link sidebar-search-collapsed-btn" onClick={() => setCollapsed(false)} title="Search">
-            <Search size={16} />
-          </button>
-        )}
-
-        {/* Main Navigation links */}
-        <div className="sidebar-links-section">
-          {showText && <span className="sidebar-section-title">Navigation</span>}
-          
-          {/* Home */}
-          <NavLink to="/" end className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`} title="Home">
-            <Home size={16} />
-            {showText && <span>Home</span>}
-          </NavLink>
-
-          {/* News dropdown */}
-          <div className="sidebar-dropdown-group">
-            <button 
-              className={`sidebar-link ${location.pathname.startsWith('/news') ? 'active' : ''}`} 
-              onClick={() => {
-                if (collapsed && !isMobile) {
-                  setCollapsed(false);
-                  setNewsOpen(true);
-                } else {
-                  setNewsOpen(!newsOpen);
-                }
-              }}
-              title="News & Analysis"
-            >
-              <Newspaper size={16} />
-              {showText && <span>News & Analysis</span>}
-              {showText && (newsOpen ? <ChevronUp size={14} className="chevron" /> : <ChevronDown size={14} className="chevron" />)}
-            </button>
+        {/* Scrollable Links Section */}
+        <div className="sidebar-links-scrollable">
+          <div className="sidebar-links-section">
+            {showText && <span className="sidebar-section-title">Navigation</span>}
             
-            <AnimatePresence>
-              {showText && (newsOpen || location.pathname.startsWith('/news')) && (
-                <motion.div 
-                  className="sidebar-sub-links"
-                  style={{ maxHeight: '240px', overflowY: 'auto' }}
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <NavLink to="/news" end className={({ isActive }) => `sidebar-sub-link ${isActive ? 'active' : ''}`}>
-                    All Articles
-                  </NavLink>
-                  {categories.map(cat => (
-                    <NavLink key={cat.slug} to={`/news?category=${cat.slug}`} className={({ isActive }) => `sidebar-sub-link ${location.search.includes(`category=${cat.slug}`) ? 'active' : ''}`}>
-                      <span className="cat-icon">{cat.icon}</span> {cat.name}
+            {/* Home */}
+            <NavLink to="/" end className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`} title="Home">
+              <Home size={16} />
+              {showText && <span>Home</span>}
+            </NavLink>
+
+            {/* News dropdown */}
+            <div className="sidebar-dropdown-group">
+              <button 
+                className={`sidebar-link ${location.pathname.startsWith('/news') ? 'active' : ''}`} 
+                onClick={() => {
+                  if (collapsed && !isMobile) {
+                    setCollapsed(false);
+                    setNewsOpen(true);
+                  } else {
+                    setNewsOpen(!newsOpen);
+                  }
+                }}
+                title="News & Analysis"
+              >
+                <Newspaper size={16} />
+                {showText && <span>News & Analysis</span>}
+                {showText && (newsOpen ? <ChevronUp size={14} className="chevron" /> : <ChevronDown size={14} className="chevron" />)}
+              </button>
+              
+              <AnimatePresence>
+                {showText && (newsOpen || location.pathname.startsWith('/news')) && (
+                  <motion.div 
+                    className="sidebar-sub-links"
+                    style={{ maxHeight: 'none', overflowY: 'visible' }}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <NavLink to="/news" end className={({ isActive }) => `sidebar-sub-link ${isActive ? 'active' : ''}`}>
+                      All Articles
                     </NavLink>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
+                    {categories.map(cat => (
+                      <NavLink key={cat.slug} to={`/news?category=${cat.slug}`} className={({ isActive }) => `sidebar-sub-link ${location.search.includes(`category=${cat.slug}`) ? 'active' : ''}`}>
+                        <span className="cat-icon">{cat.icon}</span> {cat.name}
+                      </NavLink>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Markets */}
+            <NavLink to="/markets" className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`} title="Markets">
+              <BarChart2 size={16} />
+              {showText && <span>Markets</span>}
+            </NavLink>
+
+            {/* IPO */}
+            <NavLink to="/news?category=ipo-calendar" className={({ isActive }) => `sidebar-link ${location.search.includes('category=ipo-calendar') ? 'active' : ''}`} title="IPO Calendar">
+              <Calendar size={16} />
+              {showText && <span>IPO Calendar</span>}
+            </NavLink>
+
+            {/* Crypto */}
+            <NavLink to="/news?category=cryptocurrency" className={({ isActive }) => `sidebar-link ${location.search.includes('category=cryptocurrency') ? 'active' : ''}`} title="Cryptocurrency">
+              <Coins size={16} />
+              {showText && <span>Cryptocurrency</span>}
+            </NavLink>
           </div>
-
-          {/* Markets */}
-          <NavLink to="/markets" className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`} title="Markets">
-            <BarChart2 size={16} />
-            {showText && <span>Markets</span>}
-          </NavLink>
-
-          {/* IPO */}
-          <NavLink to="/news?category=ipo-calendar" className={({ isActive }) => `sidebar-link ${location.search.includes('category=ipo-calendar') ? 'active' : ''}`} title="IPO Calendar">
-            <Calendar size={16} />
-            {showText && <span>IPO Calendar</span>}
-          </NavLink>
-
-          {/* Crypto */}
-          <NavLink to="/news?category=cryptocurrency" className={({ isActive }) => `sidebar-link ${location.search.includes('category=cryptocurrency') ? 'active' : ''}`} title="Cryptocurrency">
-            <Coins size={16} />
-            {showText && <span>Cryptocurrency</span>}
-          </NavLink>
         </div>
 
         {/* User / Authentication section at bottom */}

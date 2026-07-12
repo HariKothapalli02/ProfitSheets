@@ -28,6 +28,8 @@
   flex-direction: column;
   padding: 24px 12px;
   position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* Collapse Toggle Button */
@@ -302,11 +304,14 @@
 /* Sidebar Bottom section */
 .sidebar-bottom-section {
   border-top: 1px solid var(--border);
-  padding-top: 20px;
-  margin-top: 20px;
+  padding-top: 16px;
+  margin-top: auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Theme toggle */
@@ -572,4 +577,39 @@
     backdrop-filter: blur(2px);
     z-index: 1999;
   }
+}
+
+/* Sidebar Fixed Header & Scrollable Links Layout */
+.sidebar-header-fixed {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.sidebar-links-scrollable {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 16px 0;
+  padding-right: 4px;
+}
+
+.sidebar-links-scrollable::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-links-scrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-links-scrollable::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.sidebar-links-scrollable:hover::-webkit-scrollbar-thumb {
+  background: var(--gray-200);
+}
+
+[data-theme="dark"] .sidebar-links-scrollable:hover::-webkit-scrollbar-thumb {
+  background: #2d4260;
 }
