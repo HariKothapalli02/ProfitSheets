@@ -1,6 +1,7 @@
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { TrendingUp, Clock, ArrowRight, Zap, BarChart2, Globe, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import api from '../services/api';
 import NewsCard from '../components/NewsCard/NewsCard';
@@ -44,6 +45,8 @@ function MarketCard({ item }) {
 }
 
 export default function Home() {
+  const [heroIndex, setHeroIndex] = useState(0);
+  const [trendingIndex, setTrendingIndex] = useState(0);
   const { data: latestData, isLoading: loadingLatest } = useQuery({
     queryKey: ['news', 'latest-top-10'],
     queryFn: () => api.get('/news?limit=10').then(r => r.data),
@@ -63,6 +66,24 @@ export default function Home() {
   const trending = [...latest]
     .sort((a, b) => (b.views || 0) - (a.views || 0))
     .slice(0, 5);
+
+  // Auto-play Hero Carousel (6 seconds)
+  useEffect(() => {
+    if (displayFeatured.length <= 1) return;
+    const interval = setInterval(() => {
+      setHeroIndex((prev) => (prev + 1) % Math.min(5, displayFeatured.length));
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [displayFeatured.length]);
+
+  // Auto-play Trending Carousel (6 seconds)
+  useEffect(() => {
+    if (trending.length <= 1) return;
+    const interval = setInterval(() => {
+      setTrendingIndex((prev) => (prev + 1) % Math.min(5, trending.length));
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [trending.length]);
 
   const getMarketCards = () => {
     const rates = marketData?.rates || [];
@@ -135,8 +156,48 @@ export default function Home() {
           <div className="hero-main">
             {loadingFeatured ? (
               <div className="skeleton" style={{ height: '100%', minHeight: 420, borderRadius: 8 }} />
-            ) : displayFeatured[0] ? (
-              <NewsCard news={displayFeatured[0]} variant="featured" />
+            ) : displayFeatured.length > 0 ? (
+              <div className="hero-carousel-container">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={heroIndex}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="hero-carousel-slide"
+                  >
+                    <NewsCard news={displayFeatured[heroIndex]} variant="featured" />
+                  </motion.div>
+                </AnimatePresence>
+
+                {displayFeatured.length > 1 && (
+                  <>
+                    <button 
+                      className="carousel-btn prev" 
+                      onClick={() => setHeroIndex(prev => (prev - 1 + Math.min(5, displayFeatured.length)) % Math.min(5, displayFeatured.length))}
+                    >
+                      ❮
+                    </button>
+                    <button 
+                      className="carousel-btn next" 
+                      onClick={() => setHeroIndex(prev => (prev + 1) % Math.min(5, displayFeatured.length))}
+                    >
+                      ❯
+                    </button>
+                    
+                    <div className="carousel-indicators">
+                      {displayFeatured.slice(0, Math.min(5, displayFeatured.length)).map((_, i) => (
+                        <button 
+                          key={i} 
+                          className={`indicator-dot ${i === heroIndex ? 'active' : ''}`}
+                          onClick={() => setHeroIndex(i)}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
             ) : (
               <div className="hero-empty">
                 <Globe size={48} style={{ color: 'var(--gray-300)' }} />
@@ -154,18 +215,46 @@ export default function Home() {
                   <TrendingUp size={16} /> <span>Trending Now</span>
                 </div>
                 {trending.length === 0 ? (
-                  loadingFeatured ? [1,2,3].map(i => (
-                    <div key={i} className="skeleton" style={{ height: 70, borderRadius: 8, marginBottom: 8 }} />
-                  )) : <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)' }}>No trending news</p>
-                ) : trending.map((item, i) => (
-                  <Link key={item._id} to={`/news/${item.slug}`} className="trending-item">
-                    <span className="trending-num">{i + 1}</span>
-                    <div>
-                      <p className="trending-title">{item.title}</p>
-                      <span className="trending-cat">{item.category?.name}</span>
-                    </div>
-                  </Link>
-                ))}
+                  loadingFeatured ? (
+                    <div className="skeleton" style={{ height: 100, borderRadius: 8 }} />
+                  ) : (
+                    <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)' }}>No trending news</p>
+                  )
+                ) : (
+                  <div className="trending-carousel-container">
+                    <AnimatePresence mode="wait">
+                      {trending[trendingIndex] && (
+                        <motion.div
+                          key={trendingIndex}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.25 }}
+                        >
+                          <Link to={`/news/${trending[trendingIndex].slug}`} className="trending-carousel-item">
+                            <span className="trending-carousel-num">#{trendingIndex + 1}</span>
+                            <div className="trending-carousel-content">
+                              <span className="trending-carousel-cat">{trending[trendingIndex].category?.name}</span>
+                              <p className="trending-carousel-title">{trending[trendingIndex].title}</p>
+                            </div>
+                          </Link>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {trending.length > 1 && (
+                      <div className="trending-carousel-indicators">
+                        {trending.slice(0, Math.min(5, trending.length)).map((_, i) => (
+                          <button 
+                            key={i} 
+                            className={`trending-dot ${i === trendingIndex ? 'active' : ''}`}
+                            onClick={() => setTrendingIndex(i)}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Market Summary */}
