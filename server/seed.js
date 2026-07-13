@@ -27,6 +27,10 @@ const categories = [
   { name: 'Personal Finance', slug: 'personal-finance', icon: '💵', themeColor: '#0B2D52', order: 18 },
   { name: 'Government Policies', slug: 'government-policies', icon: '📜', themeColor: '#1D4ED8', order: 19 },
   { name: 'Trading Strategies', slug: 'trading-strategies', icon: '💹', themeColor: '#059669', order: 20 },
+  { name: 'Space & Science', slug: 'space-science', icon: '🪐', themeColor: '#3B82F6', order: 21 },
+  { name: 'Entertainment', slug: 'entertainment', icon: '🎬', themeColor: '#EC4899', order: 22 },
+  { name: 'Health', slug: 'health', icon: '🩺', themeColor: '#10B981', order: 23 },
+  { name: 'World News', slug: 'world-news', icon: '🌍', themeColor: '#1F2937', order: 24 },
 ];
 
 async function seed() {

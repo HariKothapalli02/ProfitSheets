@@ -12,7 +12,8 @@ const CATEGORIES_STATIC = [
   'Stock News', 'IPO Calendar', 'Business News', 'Technology', 'Startup News', 'Forex',
   'Cryptocurrency', 'Mutual Funds', 'Market Analysis', 'Global Markets', 'Banking', 'Commodities',
   'Sports', 'Indian Economy', 'Company Announcements', 'Quarterly Results', 'Investment Tips',
-  'Personal Finance', 'Government Policies', 'Trading Strategies'
+  'Personal Finance', 'Government Policies', 'Trading Strategies', 'Space & Science', 'Entertainment',
+  'Health', 'World News'
 ];
 
 export default function NewsForm() {
