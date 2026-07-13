@@ -122,6 +122,28 @@ export default function NewsList() {
         </aside>
 
         <main className="newsList-main">
+          {!category && !search && (
+            <div className="category-prompt-banner" style={{
+              background: 'linear-gradient(135deg, rgba(11, 45, 82, 0.05) 0%, rgba(0, 166, 81, 0.05) 100%)',
+              border: '1px solid var(--border)',
+              borderRadius: 'var(--radius-sm)',
+              padding: '16px 20px',
+              marginBottom: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              fontSize: '0.86rem',
+              color: 'var(--text)',
+              lineHeight: '1.4',
+              boxShadow: 'var(--shadow-sm)'
+            }}>
+              <span style={{ fontSize: '1.25rem', flexShrink: 0 }}>💡</span>
+              <div>
+                <strong>Top 10 general news are shown here.</strong> Select a category from the sidebar to browse older or more specific articles.
+              </div>
+            </div>
+          )}
+
           {isLoading ? (
             <div className="news-grid">
               {[1,2,3,4,5,6,7,8].map(i => <SkeletonCard key={i} />)}

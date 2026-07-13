@@ -15,11 +15,16 @@ exports.getNews = async (req, res) => {
     const { category, search, page = 1, limit = 12, trending, featured, breaking, status } = req.query;
     const query = {};
 
+    const isAdmin = req.user && req.user.role === 'admin';
+
     // Public users only see published. Admins can see all via status param
-    if (req.user && req.user.role === 'admin') {
+    if (isAdmin) {
       if (status) query.status = status;
     } else {
       query.status = 'published';
+      // Filter out news older than 48 hours for public users
+      const fortyEightHoursAgo = new Date(Date.now() - 48 * 60 * 60 * 1000);
+      query.createdAt = { $gte: fortyEightHoursAgo };
     }
 
     if (category) {
@@ -31,16 +36,29 @@ exports.getNews = async (req, res) => {
     if (breaking === 'true') query.breaking = true;
     if (search) query.$text = { $search: search };
 
-    const total = await News.countDocuments(query);
+    // Enforce top 10 limit for general feeds (public, no category, no search)
+    const isPublicGeneralFeed = !isAdmin && !category && !search;
+    let queryLimit = Number(limit);
+    let queryPage = Number(page);
+    if (isPublicGeneralFeed) {
+      queryLimit = 10;
+      queryPage = 1;
+    }
+
+    let total = await News.countDocuments(query);
+    if (isPublicGeneralFeed) {
+      total = Math.min(total, 10);
+    }
+
     const news = await News.find(query)
       .populate('category', 'name slug themeColor icon')
       .populate('author', 'name avatar')
       .sort({ publishedAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(Number(limit))
+      .skip((queryPage - 1) * queryLimit)
+      .limit(queryLimit)
       .lean();
 
-    res.json({ success: true, news, total, page: Number(page), pages: Math.ceil(total / limit) });
+    res.json({ success: true, news, total, page: queryPage, pages: Math.ceil(total / queryLimit) });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -49,14 +67,22 @@ exports.getNews = async (req, res) => {
 // GET single news by slug + increment views
 exports.getNewsBySlug = async (req, res) => {
   try {
+    const query = { slug: req.params.slug, status: 'published' };
+    
+    // Filter out news older than 48 hours for public users
+    // Note: We don't check for admin session here as this is a public endpoint,
+    // but we can add a check if needed.
+    const fortyEightHoursAgo = new Date(Date.now() - 48 * 60 * 60 * 1000);
+    query.createdAt = { $gte: fortyEightHoursAgo };
+
     const news = await News.findOneAndUpdate(
-      { slug: req.params.slug, status: 'published' },
+      query,
       { $inc: { views: 1 } },
       { new: true }
     )
       .populate('category', 'name slug themeColor icon')
       .populate('author', 'name avatar');
-    if (!news) return res.status(404).json({ success: false, message: 'Article not found' });
+    if (!news) return res.status(404).json({ success: false, message: 'Article not found or expired' });
     res.json({ success: true, news });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });

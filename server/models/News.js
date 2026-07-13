@@ -35,5 +35,6 @@ newsSchema.index({ featured: 1 });
 newsSchema.index({ breaking: 1 });
 newsSchema.index({ publishedAt: -1 });
 newsSchema.index({ title: 'text', description: 'text', content: 'text', tags: 'text' });
+newsSchema.index({ createdAt: 1 }, { expireAfterSeconds: 172800 });
 
 module.exports = mongoose.model('News', newsSchema);

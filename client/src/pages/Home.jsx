@@ -44,25 +44,19 @@ function MarketCard({ item }) {
 }
 
 export default function Home() {
-  const { data: featuredData, isLoading: loadingFeatured } = useQuery({
-    queryKey: ['news', 'featured'],
-    queryFn: () => api.get('/news?featured=true&limit=6').then(r => r.data),
-  });
-
   const { data: latestData, isLoading: loadingLatest } = useQuery({
-    queryKey: ['news', 'latest'],
-    queryFn: () => api.get('/news?limit=8').then(r => r.data),
+    queryKey: ['news', 'latest-top-10'],
+    queryFn: () => api.get('/news?limit=10').then(r => r.data),
   });
 
-  const { data: trendingData } = useQuery({
-    queryKey: ['news', 'trending'],
-    queryFn: () => api.get('/news?trending=true&limit=5').then(r => r.data),
-  });
-  const featured = featuredData?.news || [];
   const latest = latestData?.news || [];
-  const trending = trendingData?.news || [];
+  const displayFeatured = latest;
+  const loadingFeatured = loadingLatest;
 
-  const displayFeatured = featured.length > 0 ? featured : latest;
+  // Derive trending news by sorting the 10 fetched articles by views descending
+  const trending = [...latest]
+    .sort((a, b) => (b.views || 0) - (a.views || 0))
+    .slice(0, 5);
 
   return (
     <UserLayout>
@@ -86,7 +80,7 @@ export default function Home() {
                 <p className="empty-message">More articles will appear here once posted.</p>
               ) : (
                 <div className="editors-pick-list">
-                  {displayFeatured.slice(0, 2).map(n => (
+                  {displayFeatured.slice(1, 3).map(n => (
                     <Link key={n._id} to={`/news/${n.slug}`} className="editors-pick-item">
                       <p className="pick-title">{n.title}</p>
                       <span className="pick-cat">{n.category?.name}</span>
@@ -153,45 +147,41 @@ export default function Home() {
         </section>
 
       {/* More featured */}
-      {displayFeatured.length > 1 && (
+      {displayFeatured.length > 3 && (
         <section className="home-section container">
           <div className="section-header">
             <h2 className="section-title">Editor's Picks</h2>
             <Link to="/news?featured=true" className="btn btn-ghost btn-sm">See all <ArrowRight size={14} /></Link>
           </div>
           <div className="news-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
-            {displayFeatured.slice(1, 4).map(n => <NewsCard key={n._id} news={n} />)}
+            {displayFeatured.slice(3, 6).map(n => <NewsCard key={n._id} news={n} />)}
           </div>
         </section>
       )}
 
 
       {/* Latest News */}
-      <section className="home-section container">
-        <div className="section-header">
-          <h2 className="section-title">Latest News</h2>
-          <Link to="/news" className="btn btn-ghost btn-sm">View all <ArrowRight size={14} /></Link>
-        </div>
-        {loadingLatest ? (
-          <div className="news-grid">
-            {[1,2,3,4,5,6].map(i => <SkeletonCard key={i} />)}
+      {(loadingLatest || latest.length > 6) && (
+        <section className="home-section container">
+          <div className="section-header">
+            <h2 className="section-title">Latest News</h2>
+            <Link to="/news" className="btn btn-ghost btn-sm">View all <ArrowRight size={14} /></Link>
           </div>
-        ) : latest.length > 0 ? (
-          <div className="news-grid">
-            {latest.map((n, i) => (
-              <motion.div key={n._id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
-                <NewsCard news={n} />
-              </motion.div>
-            ))}
-          </div>
-        ) : (
-          <div className="empty-state">
-            <Zap size={48} style={{ color: 'var(--gray-300)' }} />
-            <h3>No articles yet</h3>
-            <p>The admin has not published any news articles yet. Check back soon.</p>
-          </div>
-        )}
-      </section>
+          {loadingLatest ? (
+            <div className="news-grid">
+              {[1,2,3,4].map(i => <SkeletonCard key={i} />)}
+            </div>
+          ) : (
+            <div className="news-grid">
+              {latest.slice(6, 10).map((n, i) => (
+                <motion.div key={n._id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
+                  <NewsCard news={n} />
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
     </UserLayout>
   );
 }
