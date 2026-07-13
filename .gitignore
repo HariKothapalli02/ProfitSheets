@@ -13,3 +13,4 @@ server/.env
 # n8n workflow files
 main (1).json
 main*.json
+*.json

@@ -1,0 +1,207 @@
+/* Breaking News Sliding Ticker Style */
+.breaking-ticker-container {
+  display: flex;
+  align-items: center;
+  background: #051424; /* Very dark navy blue for the marquee track */
+  height: 42px;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-ui);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Loading state */
+.breaking-ticker-container.loading {
+  background: #051424;
+}
+.breaking-loading-text {
+  color: var(--gray-400);
+  font-size: 0.82rem;
+  padding-left: 20px;
+  font-style: italic;
+}
+
+/* Left Badge: BREAKING NEWS */
+.breaking-label-badge {
+  background: #0c335a; /* The exact dark blue from the user's second image */
+  color: #ffffff;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 0.76rem;
+  letter-spacing: 0.8px;
+  padding: 0 28px 0 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  transform: skewX(-15deg);
+  margin-left: -10px; /* Offset the left skew out of bounds */
+  flex-shrink: 0;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.4);
+}
+
+.breaking-label-badge-content {
+  transform: skewX(15deg); /* Counter-skew content to keep text normal */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+/* Blinking White Dot */
+.breaking-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: inline-block;
+  animation: breaking-dot-pulse 1.5s infinite;
+}
+
+@keyframes breaking-dot-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* Right Badge: PROFIT SHEETS */
+.breaking-wire-badge {
+  background: #0c335a; /* The exact dark blue from the user's second image */
+  color: #ffffff;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 0.76rem;
+  letter-spacing: 0.8px;
+  padding: 0 20px 0 28px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  transform: skewX(-15deg);
+  margin-right: -10px; /* Offset the right skew out of bounds */
+  flex-shrink: 0;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.4);
+}
+
+.breaking-wire-badge-content {
+  transform: skewX(15deg); /* Counter-skew content */
+  white-space: nowrap;
+}
+
+/* Marquee Track Container */
+.breaking-marquee-container {
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  /* Soft gradient fade on left and right edges */
+  mask-image: linear-gradient(to right, transparent, black 30px, black calc(100% - 30px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 30px, black calc(100% - 30px), transparent);
+}
+
+.breaking-marquee-track {
+  display: flex;
+  align-items: center;
+  animation: breaking-marquee-scroll 140s linear infinite; /* Adjusted to 140s for a comfortable, slower scroll speed */
+  white-space: nowrap;
+}
+
+/* Pause animation on hover */
+.breaking-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes breaking-marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Breaking news ticker items */
+.breaking-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 32px;
+  height: 42px;
+  color: #e2e8f0;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  border-right: 1px dashed rgba(255, 255, 255, 0.15);
+}
+
+.breaking-item:hover {
+  color: #00A651; /* Highlight to green on hover */
+}
+
+.breaking-item-category {
+  color: #00A651; /* ProfitSheets Green */
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  letter-spacing: 0.5px;
+}
+
+.breaking-item-time {
+  color: #f87171; /* Highlight time in reddish coral */
+  background: rgba(248, 113, 113, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.breaking-item-title {
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.breaking-item.default-msg {
+  cursor: default;
+}
+.breaking-item.default-msg:hover {
+  color: #e2e8f0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .breaking-wire-badge {
+    display: none; /* Hide ProfitWire badge on small screens to save space */
+  }
+  .breaking-ticker-container {
+    height: 38px;
+  }
+  .breaking-item {
+    height: 38px;
+    font-size: 0.78rem;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .breaking-label-badge {
+    padding: 0 16px 0 12px;
+    font-size: 0.7rem;
+  }
+  .breaking-item-category {
+    display: none; /* Hide category on ultra-small screens */
+  }
+}

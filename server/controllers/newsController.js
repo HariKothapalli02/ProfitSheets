@@ -78,7 +78,7 @@ exports.getNewsBySlug = async (req, res) => {
     const news = await News.findOneAndUpdate(
       query,
       { $inc: { views: 1 } },
-      { new: true }
+      { returnDocument: 'after' }
     )
       .populate('category', 'name slug themeColor icon')
       .populate('author', 'name avatar');

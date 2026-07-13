@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import MarketTicker from '../components/MarketTicker/MarketTicker';
+import BreakingNewsTicker from '../components/BreakingNewsTicker/BreakingNewsTicker';
 import { format } from 'date-fns';
 import '../components/MarketTicker/MarketTicker.css';
 import './UserLayout.css';
@@ -47,6 +48,8 @@ export default function UserLayout({ children }) {
         </header>
         
         <div className="navbar-spacer" />
+        
+        <BreakingNewsTicker />
 
         <main className="user-layout-content" style={{ minHeight: '75vh' }}>
           {children}
@@ -57,3 +60,4 @@ export default function UserLayout({ children }) {
     </div>
   );
 }
+

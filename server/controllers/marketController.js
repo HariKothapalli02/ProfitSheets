@@ -38,7 +38,7 @@ exports.updateMarketsViaWebhook = async (req, res) => {
               change: Number(rate.change),
               unit: rate.unit || ''
             },
-            { upsert: true, new: true }
+            { upsert: true, returnDocument: 'after' }
           );
         }
       }
@@ -54,7 +54,7 @@ exports.updateMarketsViaWebhook = async (req, res) => {
               change: Number(data.change),
               unit: data.unit || ''
             },
-            { upsert: true, new: true }
+            { upsert: true, returnDocument: 'after' }
           );
         }
       }
