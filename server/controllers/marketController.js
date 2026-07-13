@@ -31,16 +31,14 @@ exports.updateMarketsViaWebhook = async (req, res) => {
     if (Array.isArray(rates)) {
       for (const rate of rates) {
         if (rate.label && rate.value !== undefined && rate.change !== undefined) {
-          updatePromises.push(
-            MarketRate.findOneAndUpdate(
-              { label: rate.label.toUpperCase().trim() },
-              { 
-                value: Number(rate.value), 
-                change: Number(rate.change),
-                unit: rate.unit || ''
-              },
-              { upsert: true, new: true }
-            )
+          await MarketRate.findOneAndUpdate(
+            { label: rate.label.toUpperCase().trim() },
+            { 
+              value: Number(rate.value), 
+              change: Number(rate.change),
+              unit: rate.unit || ''
+            },
+            { upsert: true, new: true }
           );
         }
       }
@@ -49,16 +47,14 @@ exports.updateMarketsViaWebhook = async (req, res) => {
     else if (typeof rates === 'object') {
       for (const [label, data] of Object.entries(rates)) {
         if (data && data.value !== undefined && data.change !== undefined) {
-          updatePromises.push(
-            MarketRate.findOneAndUpdate(
-              { label: label.toUpperCase().trim() },
-              { 
-                value: Number(data.value), 
-                change: Number(data.change),
-                unit: data.unit || ''
-              },
-              { upsert: true, new: true }
-            )
+          await MarketRate.findOneAndUpdate(
+            { label: label.toUpperCase().trim() },
+            { 
+              value: Number(data.value), 
+              change: Number(data.change),
+              unit: data.unit || ''
+            },
+            { upsert: true, new: true }
           );
         }
       }
@@ -66,7 +62,6 @@ exports.updateMarketsViaWebhook = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid rates format' });
     }
 
-    await Promise.all(updatePromises);
     const updatedRates = await MarketRate.find().lean();
     res.json({ success: true, message: 'Market rates updated successfully', rates: updatedRates });
   } catch (err) {
