@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { TrendingUp, TrendingDown } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import api from '../../services/api';
 
 const MARKET_DATA = [
   { label: 'NIFTY 50', value: 24850.35, change: 0.82 },
@@ -30,6 +32,27 @@ function TickerItem({ item }) {
 export default function MarketTicker() {
   const [data, setData] = useState(MARKET_DATA);
   const tickerRef = useRef(null);
+
+  const { data: serverData } = useQuery({
+    queryKey: ['markets'],
+    queryFn: () => api.get('/markets').then(r => r.data),
+    refetchInterval: 30000, // Refetch every 30s
+  });
+
+  useEffect(() => {
+    if (serverData?.rates && serverData.rates.length > 0) {
+      const merged = MARKET_DATA.map(defItem => {
+        const serverItem = serverData.rates.find(r => r.label.toUpperCase() === defItem.label.toUpperCase());
+        return serverItem ? { 
+          label: serverItem.label, 
+          value: serverItem.value, 
+          change: serverItem.change, 
+          unit: serverItem.unit || defItem.unit 
+        } : defItem;
+      });
+      setData(merged);
+    }
+  }, [serverData]);
 
   // Simulate slight price fluctuations
   useEffect(() => {

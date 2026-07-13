@@ -49,6 +49,12 @@ export default function Home() {
     queryFn: () => api.get('/news?limit=10').then(r => r.data),
   });
 
+  const { data: marketData } = useQuery({
+    queryKey: ['markets'],
+    queryFn: () => api.get('/markets').then(r => r.data),
+    refetchInterval: 30000,
+  });
+
   const latest = latestData?.news || [];
   const displayFeatured = latest;
   const loadingFeatured = loadingLatest;
@@ -57,6 +63,35 @@ export default function Home() {
   const trending = [...latest]
     .sort((a, b) => (b.views || 0) - (a.views || 0))
     .slice(0, 5);
+
+  const getMarketCards = () => {
+    const rates = marketData?.rates || [];
+    return [
+      { label: 'NIFTY 50', defaultVal: 24850.35, defaultChange: 0.82, unit: '' },
+      { label: 'SENSEX', defaultVal: 81550.20, defaultChange: 1.12, unit: '' },
+      { label: 'GOLD', defaultVal: 74250, defaultChange: 0.45, unit: '₹' },
+      { label: 'BITCOIN', defaultVal: 67850, defaultChange: 2.34, unit: '$' },
+    ].map(card => {
+      const serverItem = rates.find(r => r.label.toUpperCase() === card.label.toUpperCase());
+      const value = serverItem ? serverItem.value : card.defaultVal;
+      const change = serverItem ? serverItem.change : card.defaultChange;
+      const isUp = change >= 0;
+      
+      const formattedVal = card.unit === '$' 
+        ? `$${value.toLocaleString('en-US')}` 
+        : `${card.unit}${value.toLocaleString('en-IN')}`;
+      const formattedChange = `${isUp ? '+' : ''}${change}%`;
+
+      return {
+        label: card.label,
+        value: formattedVal,
+        change: formattedChange,
+        up: isUp,
+      };
+    });
+  };
+
+  const marketCards = getMarketCards();
 
   return (
     <UserLayout>
@@ -139,7 +174,7 @@ export default function Home() {
                   <BarChart2 size={16} /> <span>Market Summary</span>
                 </div>
                 <div className="market-mini-grid">
-                  {MARKET_CARDS.map(card => <MarketCard key={card.label} item={card} />)}
+                  {marketCards.map(card => <MarketCard key={card.label} item={card} />)}
                 </div>
               </div>
             </div>

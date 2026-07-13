@@ -36,6 +36,7 @@ app.use('/api/news', require('./routes/newsRoutes'));
 app.use('/api/categories', require('./routes/categoryRoutes'));
 app.use('/api/comments', require('./routes/commentRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/markets', require('./routes/marketRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Date() }));
