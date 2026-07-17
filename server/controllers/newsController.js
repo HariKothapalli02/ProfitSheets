@@ -301,7 +301,25 @@ exports.createNewsViaWebhook = async (req, res) => {
     const User = require('../models/User');
     let adminUser = await User.findOne({ role: 'admin' });
 
-    // 4. Generate Slug
+    // 4. Check for duplicate news by title or sourceUrl
+    const normalizedTitle = title.trim();
+    const titleRegex = new RegExp(`^${normalizedTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i');
+    
+    let duplicateQuery = { $or: [{ title: titleRegex }] };
+    if (sourceUrl && sourceUrl.trim()) {
+      duplicateQuery.$or.push({ sourceUrl: sourceUrl.trim() });
+    }
+    
+    const existingNews = await News.findOne(duplicateQuery);
+    if (existingNews) {
+      return res.status(200).json({
+        success: true,
+        message: 'Duplicate article skipped: already exists',
+        news: existingNews
+      });
+    }
+
+    // 5. Generate Slug
     const slug = await generateSlug(title);
 
     // 5. Calculate reading time
