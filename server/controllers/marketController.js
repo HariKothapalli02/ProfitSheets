@@ -15,7 +15,7 @@ exports.updateMarketsViaWebhook = async (req, res) => {
   try {
     // 1. Authenticate API Key
     const apiKey = req.headers['x-api-key'] || req.query.apiKey;
-    const requiredKey = process.env.WEBHOOK_API_KEY || 'profitsheets_n8n_webhook_secret_key_2026';
+    const requiredKey = process.env.WEBHOOK_API_KEY || 'indiasphere_n8n_webhook_secret_key_2026';
     if (!apiKey || apiKey !== requiredKey) {
       return res.status(401).json({ success: false, message: 'Unauthorized: Invalid API Key' });
     }

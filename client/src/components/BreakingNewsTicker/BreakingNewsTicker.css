@@ -72,7 +72,7 @@
   }
 }
 
-/* Right Badge: PROFIT SHEETS */
+/* Right Badge: INDIA SPHERE */
 .breaking-wire-badge {
   background: #0c335a; /* The exact dark blue from the user's second image */
   color: #ffffff;
@@ -152,7 +152,7 @@
 }
 
 .breaking-item-category {
-  color: #00A651; /* ProfitSheets Green */
+  color: #00A651; /* IndiaSphere Green */
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.74rem;
@@ -184,7 +184,7 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .breaking-wire-badge {
-    display: none; /* Hide ProfitWire badge on small screens to save space */
+    display: none; /* Hide IndiaSphere badge on small screens to save space */
   }
   .breaking-ticker-container {
     height: 38px;

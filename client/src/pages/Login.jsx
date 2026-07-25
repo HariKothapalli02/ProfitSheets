@@ -31,8 +31,8 @@ export default function Login() {
       <div className="auth-brand">
         <div className="auth-brand-inner">
           <div className="auth-logo">
-            <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="rgba(255,255,255,0.15)"/><text x="24" y="33" fontSize="26" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">P</text><polygon points="7,9 14,9 9,17" fill="#00A651"/></svg>
-            <span>ProfitSheets</span>
+            <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="rgba(255,255,255,0.15)"/><text x="24" y="33" fontSize="26" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">I</text><polygon points="7,9 14,9 9,17" fill="#00A651"/></svg>
+            <span>IndiaSphere</span>
           </div>
           <h1 className="auth-brand-title">Your trusted financial news partner</h1>
           <p className="auth-brand-sub">Get real-time market updates, IPO news, stock analysis and much more.</p>
@@ -48,7 +48,7 @@ export default function Login() {
         <motion.div className="auth-card" initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }}>
           <div className="auth-card-header">
             <h2>Welcome Back</h2>
-            <p>Sign in to your ProfitSheets account</p>
+            <p>Sign in to your IndiaSphere account</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
@@ -86,7 +86,7 @@ export default function Login() {
 
           <div className="auth-divider"><span>Demo Credentials</span></div>
           <div className="auth-demo">
-            <div className="demo-cred"><strong>Admin:</strong> admin@profitsheets.com / admin123456</div>
+            <div className="demo-cred"><strong>Admin:</strong> admin@indiasphere.com / admin123456</div>
           </div>
 
           <p className="auth-switch">

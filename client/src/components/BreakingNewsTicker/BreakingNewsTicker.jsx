@@ -29,7 +29,7 @@ export default function BreakingNewsTicker() {
           <span className="breaking-loading-text">Loading top news...</span>
         </div>
         <div className="breaking-wire-badge">
-          <div className="breaking-wire-badge-content">PROFIT SHEETS</div>
+          <div className="breaking-wire-badge-content">INDIA SPHERE</div>
         </div>
       </div>
     );
@@ -38,7 +38,7 @@ export default function BreakingNewsTicker() {
   // If no news, we render a default welcoming message
   const displayItems = topViewsNews.length > 0 
     ? topViewsNews 
-    : [{ _id: 'default', title: 'Welcome to ProfitSheets - Your source for real-time financial intelligence.', category: { name: 'PROFIT' }, publishedAt: new Date() }];
+    : [{ _id: 'default', title: 'Welcome to IndiaSphere - Your source for real-time financial intelligence.', category: { name: 'PROFIT' }, publishedAt: new Date() }];
 
   // To make the scrolling seamless, we duplicate the list of items
   const duplicatedItems = [...displayItems, ...displayItems];
@@ -87,7 +87,7 @@ export default function BreakingNewsTicker() {
       </div>
 
       <div className="breaking-wire-badge">
-        <div className="breaking-wire-badge-content">PROFIT SHEETS</div>
+        <div className="breaking-wire-badge-content">INDIA SPHERE</div>
       </div>
     </div>
   );

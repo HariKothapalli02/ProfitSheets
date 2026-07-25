@@ -41,7 +41,7 @@ async function seed() {
   const existingAdmin = await User.findOne({ email: process.env.ADMIN_EMAIL });
   if (!existingAdmin) {
     await User.create({
-      name: 'ProfitSheets Admin',
+      name: 'IndiaSphere Admin',
       email: process.env.ADMIN_EMAIL,
       password: process.env.ADMIN_PASSWORD,
       role: 'admin',
@@ -77,7 +77,7 @@ async function seed() {
       thumbnail: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=80",
       author: adminUser._id,
       authorName: adminUser.name,
-      source: "ProfitSheets Research",
+      source: "IndiaSphere Research",
       sourceUrl: "",
       tags: ["nifty", "sensex", "stock-market", "it-stocks"],
       views: 15420,

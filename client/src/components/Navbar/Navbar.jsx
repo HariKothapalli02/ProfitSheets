@@ -66,13 +66,13 @@ export default function Navbar({ collapsed, setCollapsed }) {
               <div className="logo-icon">
                 <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect width="40" height="40" rx="6" fill="#0B2D52"/>
-                  <text x="20" y="29" fontSize="22" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">P</text>
+                  <text x="20" y="29" fontSize="22" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">I</text>
                   <polygon points="6,8 12,8 8,14" fill="#00A651"/>
                 </svg>
               </div>
               {showText && (
                 <span className="logo-text">
-                  <span className="logo-profit">Profit</span><span className="logo-sheets">Sheets</span>
+                  <span className="logo-profit">India</span><span className="logo-sheets">Sphere</span>
                 </span>
               )}
             </Link>
@@ -271,12 +271,12 @@ export default function Navbar({ collapsed, setCollapsed }) {
             <div className="logo-icon">
               <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="40" height="40" rx="6" fill="#0B2D52"/>
-                <text x="20" y="29" fontSize="22" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">P</text>
+                <text x="20" y="29" fontSize="22" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">I</text>
                 <polygon points="6,8 12,8 8,14" fill="#00A651"/>
               </svg>
             </div>
             <span className="logo-text">
-              <span className="logo-profit">Profit</span><span className="logo-sheets">Sheets</span>
+              <span className="logo-profit">India</span><span className="logo-sheets">Sphere</span>
             </span>
           </Link>
 

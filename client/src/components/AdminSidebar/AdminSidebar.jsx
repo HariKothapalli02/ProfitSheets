@@ -20,10 +20,10 @@ export default function AdminSidebar() {
       {/* Logo */}
       <Link to="/admin" className="sidebar-logo">
         <div className="sidebar-logo-icon">
-          <svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="rgba(255,255,255,0.12)"/><text x="20" y="28" fontSize="20" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">P</text><polygon points="6,7 11,7 8,13" fill="#00A651"/></svg>
+          <svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="rgba(255,255,255,0.12)"/><text x="20" y="28" fontSize="20" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">I</text><polygon points="6,7 11,7 8,13" fill="#00A651"/></svg>
         </div>
         <div className="sidebar-logo-text">
-          <span className="sidebar-logo-name">ProfitSheets</span>
+          <span className="sidebar-logo-name">IndiaSphere</span>
           <span className="sidebar-logo-role">Admin Panel</span>
         </div>
       </Link>

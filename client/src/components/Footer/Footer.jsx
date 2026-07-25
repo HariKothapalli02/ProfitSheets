@@ -12,21 +12,21 @@ export default function Footer() {
             <div className="footer-logo-icon">
               <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="40" height="40" rx="6" fill="#0B2D52"/>
-                <text x="20" y="29" fontSize="22" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">P</text>
+                <text x="20" y="29" fontSize="22" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">I</text>
                 <polygon points="6,8 12,8 8,14" fill="#00A651"/>
               </svg>
             </div>
             <span className="footer-logo-text">
-              <span className="logo-profit">Profit</span><span className="logo-sheets">Sheets</span>
+              <span className="logo-profit">India</span><span className="logo-sheets">Sphere</span>
             </span>
           </Link>
           <p className="footer-tagline">
             Real-time financial intelligence, market analytics, and business news. Stay ahead with automated insights.
           </p>
           <div className="footer-contact-info">
-            <a href="mailto:support@profitsheets.com" className="footer-contact-link">
+            <a href="mailto:support@indiasphere.com" className="footer-contact-link">
               <Mail size={14} />
-              <span>support@profitsheets.com</span>
+              <span>support@indiasphere.com</span>
             </a>
           </div>
           <div className="footer-socials">
@@ -67,12 +67,12 @@ export default function Footer() {
         <div className="footer-bottom">
           <div className="footer-bottom-left">
             <p className="footer-copy">
-              © {new Date().getFullYear()} ProfitSheets Inc. All rights reserved.
+              © {new Date().getFullYear()} IndiaSphere Inc. All rights reserved.
             </p>
           </div>
           <div className="footer-bottom-right">
             <p className="footer-disclaimer-text">
-              <strong>Disclaimer:</strong> ProfitSheets is a financial information portal and does not provide investment, financial, or tax advice. All content is for informational purposes only.
+              <strong>Disclaimer:</strong> IndiaSphere is a financial information portal and does not provide investment, financial, or tax advice. All content is for informational purposes only.
             </p>
           </div>
         </div>

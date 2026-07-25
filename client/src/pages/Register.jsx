@@ -31,11 +31,11 @@ export default function Register() {
       <div className="auth-brand">
         <div className="auth-brand-inner">
           <div className="auth-logo">
-            <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="rgba(255,255,255,0.15)"/><text x="24" y="33" fontSize="26" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">P</text><polygon points="7,9 14,9 9,17" fill="#00A651"/></svg>
-            <span>ProfitSheets</span>
+            <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="rgba(255,255,255,0.15)"/><text x="24" y="33" fontSize="26" textAnchor="middle" fill="white" fontWeight="bold" fontFamily="Arial">I</text><polygon points="7,9 14,9 9,17" fill="#00A651"/></svg>
+            <span>IndiaSphere</span>
           </div>
           <h1 className="auth-brand-title">Start your investment journey today</h1>
-          <p className="auth-brand-sub">Join thousands of investors and traders who trust ProfitSheets for financial insights.</p>
+          <p className="auth-brand-sub">Join thousands of investors and traders who trust IndiaSphere for financial insights.</p>
           <div className="auth-brand-features">
             {['🔖 Save Articles', '💬 Join Discussions', '❤️ Like & Share', '📱 Any Device'].map(f => (
               <div key={f} className="auth-feature">{f}</div>
@@ -48,7 +48,7 @@ export default function Register() {
         <motion.div className="auth-card" initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }}>
           <div className="auth-card-header">
             <h2>Create Account</h2>
-            <p>Join ProfitSheets — it's free</p>
+            <p>Join IndiaSphere — it's free</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
