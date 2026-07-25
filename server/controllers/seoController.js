@@ -1,8 +1,6 @@
 const News = require('../models/News');
 const Category = require('../models/Category');
 
-const BASE_URL = process.env.CLIENT_URL || 'https://indiasphere.vercel.app';
-
 function escapeXml(unsafe) {
   return unsafe.replace(/[<>&'"]/g, (c) => {
     switch (c) {
@@ -19,6 +17,10 @@ function escapeXml(unsafe) {
 // GET sitemap.xml
 exports.getSitemap = async (req, res) => {
   try {
+    const proto = req.headers['x-forwarded-proto'] || req.protocol;
+    const host = req.get('host');
+    const BASE_URL = `${proto}://${host}`;
+
     const staticUrls = [
       { loc: `${BASE_URL}/`, priority: '1.0', changefreq: 'daily' },
       { loc: `${BASE_URL}/about`, priority: '0.5', changefreq: 'monthly' },
@@ -75,6 +77,10 @@ exports.getSitemap = async (req, res) => {
 // GET sitemap-news.xml
 exports.getNewsSitemap = async (req, res) => {
   try {
+    const proto = req.headers['x-forwarded-proto'] || req.protocol;
+    const host = req.get('host');
+    const BASE_URL = `${proto}://${host}`;
+
     const fortyEightHoursAgo = new Date(Date.now() - 48 * 60 * 60 * 1000);
     const recentArticles = await News.find({
       status: 'published',
