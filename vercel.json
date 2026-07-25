@@ -36,6 +36,10 @@
       "dest": "icons.svg"
     },
     {
+      "src": "/google10c68f1d7dfe2f5f.html",
+      "dest": "google10c68f1d7dfe2f5f.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "index.html"
     }
