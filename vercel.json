@@ -40,6 +40,14 @@
       "dest": "google10c68f1d7dfe2f5f.html"
     },
     {
+      "src": "/sitemap.xml",
+      "dest": "server/index.js"
+    },
+    {
+      "src": "/sitemap-news.xml",
+      "dest": "server/index.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "index.html"
     }
