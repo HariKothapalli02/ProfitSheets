@@ -84,10 +84,6 @@ export default function Login() {
             </button>
           </form>
 
-          <div className="auth-divider"><span>Demo Credentials</span></div>
-          <div className="auth-demo">
-            <div className="demo-cred"><strong>Admin:</strong> admin@indiasphere.com / admin123456</div>
-          </div>
 
           <p className="auth-switch">
             Don't have an account? <Link to="/register">Create one free</Link>
